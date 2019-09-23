@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-aouth" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-email" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-es" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-gateway" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-integrationPay" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-kafka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-mongodb" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-msg" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-redis" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-rocketmq" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-task" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-common-zipkin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-security-oauth2" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/server-service-user" charset="UTF-8" />
+  </component>
+</project>

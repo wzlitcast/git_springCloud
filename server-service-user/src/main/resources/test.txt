@@ -1,0 +1,205 @@
+package com.it.cast.service.user.controller;
+
+import com.alibaba.fastjson.JSONObject;
+import com.aspire.commons.ExcelTemlate;
+import com.aspire.commons.analysis_excel.constantCode.ConstantCode;
+import com.aspire.commons.analysis_excel.templateVo.ExportUser;
+import com.aspire.commons.analysis_excel.templateVo.ImportGoods;
+import com.aspire.commons.analysis_excel.templateVo.ImportUser;
+import com.aspire.commons.analysis_excel.utils.ExcelUtil;
+import com.aspire.commons.analysis_json.AnalysisJson;
+import com.aspire.commons.entity.email.BuffTypeExcelVo;
+import com.aspire.commons.entity.email.MailVo;
+import com.aspire.commons.entity.excel.MessageVo;
+import com.aspire.commons.log.LogCommons;
+import com.aspire.commons.response_json.CommonJsonNode;
+import com.aspire.commons.utils.UgvData;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import TbUserAtomicServiceImpl;
+import com.it.cast.client.EmailClient;
+import com.it.cast.client.KafkaClient;
+import com.it.cast.client.RocketMq;
+import com.it.cast.service.user.service.TbUserService;
+import TbUser;
+import com.aspire.commons.AjaxResult;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.common.message.Message;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+
+/**
+ * 
+ *  应用实现类
+ *
+ * @since 2019-05-10
+ */
+@Slf4j
+@RestController
+public class TbUserController{
+
+    @Autowired
+    private TbUserService service;
+
+    @Autowired
+    private TbUserAtomicServiceImpl tbUserAtomicService;
+
+    @Autowired
+    private EmailClient emailClient;
+
+    @Autowired
+    private RocketMq rocketMq;
+
+    @Autowired
+    private KafkaClient kafkaClient;
+
+
+    @Autowired
+    HttpServletResponse response;
+
+    @PostMapping(value = "/v1/user/tbUser")
+    @ApiOperation(value = "新增", notes = "新增")
+    public AjaxResult<JsonNode> createTbUser(@RequestBody TbUser tbuser) {
+        return service.createTbUser(tbuser);
+    }
+
+    @PutMapping(value = "/v1/user/tbUser")
+    @ApiOperation(value = "编辑", notes = "编辑")
+    public AjaxResult<JsonNode> updateTbUser(@RequestBody TbUser tbuser) {
+        return service.updateTbUser(tbuser);
+    }
+
+    @GetMapping(value = "/v1/user/tbUser/{userId}")
+    @ApiOperation(value = "查询", notes = "查询")
+    public AjaxResult<JsonNode> getTbUser(@PathVariable("userId") String userId) throws Exception {
+        MailVo mailVo = new MailVo();
+        mailVo.setContent("kafka消息推送测试");
+        mailVo.setReceiver("wuzhilong@aspirecn.com");
+        mailVo.setSubject("测试邮件");
+        Map<String, Object> map = new HashMap<>();
+        map.put("bizId","biz001");
+        map.put("msg",mailVo);
+        String key = new ObjectMapper().writeValueAsString(map);
+        return kafkaClient.addMessageToKafka(key);
+    }
+
+    @DeleteMapping(value = "/v1/user/tbUser/{userId}")
+    @ApiOperation(value = "删除", notes = "删除")
+    public AjaxResult<JsonNode> deleteTbUser(@PathVariable("userId") String userId) {
+        return service.deleteTbUser(userId);
+    }
+
+    @PostMapping(value = "/v1/user/tbUser/queryAll")
+    public AjaxResult<JsonNode> queryAll() throws Exception {
+        AjaxResult<JsonNode> querAllList = service.queryAll();
+       return querAllList;
+    }
+
+    @PostMapping(value = "/v1/user/tbUser/export1")
+    public void export1(HttpServletResponse response) throws Exception {
+        long startTime = System.currentTimeMillis();
+        AjaxResult<JsonNode> export = service.queryAll();
+        String fileName = "用户信息列表";
+        String sheetName = "sheet";
+
+        AjaxResult<JsonNode> ajaxResult = service.queryAll();
+        List<ExportUser> users = AnalysisJson.getListObject(ajaxResult, new TypeReference<List<ExportUser>>() {
+        });
+
+        //自定义分sheet
+         String path =System.getProperty(ConstantCode.USER_DIR)+System.getProperty(ConstantCode.FILE_SEPARATOR)+ExcelUtil.autoFilrName();
+         ExcelUtil.writeExcelWithSheets(users, fileName, sheetName, new ExportUser(), path)
+         .write(users, sheetName + 1, new ExportUser())
+         .write(users, sheetName + 2, new ExportUser())
+         .finish();
+    }
+
+    @PostMapping(value = "/v1/user/tbUser/export2")
+    public void export2(HttpServletResponse response) throws Exception {
+        long startTime = System.currentTimeMillis();
+        AjaxResult<JsonNode> export = service.queryAll();
+        String fileName = "用户信息列表";
+        String sheetName = "sheet";
+
+        //缓冲式excel导出
+           BuffTypeExcelVo buffTypeExcelVo = new BuffTypeExcelVo();
+           buffTypeExcelVo.setEmail("wuzhilong@aspirecn.com");
+           buffTypeExcelVo.setExcelTemlate(ExcelTemlate.EXPORT_USER);
+           buffTypeExcelVo.setFileName("testExcel");
+           buffTypeExcelVo.setSuffixName(new SimpleDateFormat(ConstantCode.DATE_FORMATT).format(new Date()));
+           for (int i=0;i<=10;i++){
+               LambdaQueryWrapper<TbUser> tbUserLambdaQueryWrapper = new LambdaQueryWrapper<>();
+               //设置分页
+               Page page = new Page(i+1, 500);
+               AjaxResult<JsonNode> tbUserByPage = tbUserAtomicService.getTbUserByPage(page, tbUserLambdaQueryWrapper);
+               List<ExportUser> users = AnalysisJson.getListObject(tbUserByPage, new TypeReference<List<ExportUser>>() {});
+               buffTypeExcelVo.setEntityList(users);
+               buffTypeExcelVo.setSheetName(sheetName);
+               buffTypeExcelVo.setSheetNo(i);
+               if (i==10){
+                   buffTypeExcelVo.setFlag("1");
+               }
+               AjaxResult<JsonNode> ajaxResult = emailClient.bufferTypeMail(buffTypeExcelVo);
+               if (!ajaxResult.getCode().equals("0")){
+                   break;
+               }
+               LogCommons.info("第"+(i+1)+"次生成sheet");
+           }
+           Long endTime=System.currentTimeMillis();
+           LogCommons.info("解压耗时",()->endTime-startTime+"ms");
+    }
+
+    @PostMapping(value = "/v1/user/tbUser/export")
+    public void writeExcel() throws Exception {
+        AjaxResult<JsonNode> export = service.queryAll();
+        Page page = new Page(1, 50);
+        AjaxResult<JsonNode> tbUserByPage = tbUserAtomicService.getTbUserByPage(page, new LambdaQueryWrapper<>());
+         List<ExportUser> users = AnalysisJson.getListObject(tbUserByPage, new TypeReference<List<ExportUser>>() {});
+        MessageVo<ExportUser> exportUserMessageVo = new MessageVo<>();
+        exportUserMessageVo.setEntityList(users);
+        exportUserMessageVo.setExcelTemlate(ExcelTemlate.EXPORT_USER);
+        exportUserMessageVo.setSendType("1");
+        exportUserMessageVo.setEmail("wuzhilong@aspirecn.com");
+        exportUserMessageVo.setSubject("mqtest");
+        LogCommons.info("exportUserMessageVo:{}",exportUserMessageVo);
+        LogCommons.info("message:{}",exportUserMessageVo);
+        Message msg = new Message(
+                "Email_Topic",
+                "Email_TAG",
+                UgvData.toByteArray(exportUserMessageVo)
+        );
+        AjaxResult<JsonNode> ajaxResult = rocketMq.sendMsg(msg);
+        LogCommons.info("results:{}",ajaxResult);
+    }
+
+
+    @PostMapping(value = "/v1/user/tbUser/import")
+    public AjaxResult<JsonNode> importExcel(MultipartFile file) throws Exception {
+        List<ImportUser> importUsers = ExcelUtil.readExcelAddVerify(file, ImportUser.class);
+        List<Integer> objects = new ArrayList<>();
+        importUsers.forEach(item->{
+            Integer mon = Integer.getInteger(item.getMoney());
+            objects.add(mon);
+        });
+        System.out.println(objects.toString());
+        return new AjaxResult<JsonNode>().success(CommonJsonNode.results(importUsers));
+    }
+
+    @PostMapping(value = "/v1/goods/tbGoods/import")
+    public AjaxResult<JsonNode> importGoods(MultipartFile file) throws Exception {
+        List<ImportGoods> importGoods = ExcelUtil.readExcelAddVerify(file, ImportGoods.class);
+        return new AjaxResult<JsonNode>().success(CommonJsonNode.results(importGoods));
+    }
+}
+
+

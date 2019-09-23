@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/git_springCloud.iml" filepath="$PROJECT_DIR$/git_springCloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-base/server-common-base.iml" filepath="$PROJECT_DIR$/server-common-base/server-common-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-email/server-common-email.iml" filepath="$PROJECT_DIR$/server-common-email/server-common-email.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-es/server-common-es.iml" filepath="$PROJECT_DIR$/server-common-es/server-common-es.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-eureka/server-common-eureka.iml" filepath="$PROJECT_DIR$/server-common-eureka/server-common-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-gateway/server-common-gateway.iml" filepath="$PROJECT_DIR$/server-common-gateway/server-common-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-integrationPay/server-common-integrationPay.iml" filepath="$PROJECT_DIR$/server-common-integrationPay/server-common-integrationPay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-kafka/server-common-kafka.iml" filepath="$PROJECT_DIR$/server-common-kafka/server-common-kafka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-mongodb/server-common-mongodb.iml" filepath="$PROJECT_DIR$/server-common-mongodb/server-common-mongodb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-msg/server-common-msg.iml" filepath="$PROJECT_DIR$/server-common-msg/server-common-msg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-redis/server-common-redis.iml" filepath="$PROJECT_DIR$/server-common-redis/server-common-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-rocketmq/server-common-rocketmq.iml" filepath="$PROJECT_DIR$/server-common-rocketmq/server-common-rocketmq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-common-zipkin/server-common-zipkin.iml" filepath="$PROJECT_DIR$/server-common-zipkin/server-common-zipkin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-security-oauth2/server-security-oauth2.iml" filepath="$PROJECT_DIR$/server-security-oauth2/server-security-oauth2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/server-service-user/server-service-user.iml" filepath="$PROJECT_DIR$/server-service-user/server-service-user.iml" />
+    </modules>
+  </component>
+</project>

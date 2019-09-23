@@ -1,0 +1,7 @@
+1.mongodb ：
+$ cd ~
+$ mongod --config /usr/mongodb/mongodb.conf
+
+2.redis :
+$ cd src
+$ ./redis-server ../redis.conf

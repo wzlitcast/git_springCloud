@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="server-common-base" />
+        <module name="server-common-email" />
+        <module name="server-common-es" />
+        <module name="server-common-eureka" />
+        <module name="server-common-gateway" />
+        <module name="server-common-integrationPay" />
+        <module name="server-common-kafka" />
+        <module name="server-common-mongodb" />
+        <module name="server-common-msg" />
+        <module name="server-common-redis" />
+        <module name="server-common-rocketmq" />
+        <module name="server-common-zipkin" />
+        <module name="server-security-oauth2" />
+        <module name="server-service-user" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="git_springCloud" target="1.8" />
+      <module name="server-common-aouth" target="1.8" />
+      <module name="server-common-base" target="1.8" />
+      <module name="server-common-email" target="1.8" />
+      <module name="server-common-es" target="1.8" />
+      <module name="server-common-eureka" target="1.8" />
+      <module name="server-common-gateway" target="1.8" />
+      <module name="server-common-integrationPay" target="1.8" />
+      <module name="server-common-kafka" target="1.8" />
+      <module name="server-common-mongodb" target="1.8" />
+      <module name="server-common-msg" target="1.8" />
+      <module name="server-common-redis" target="1.8" />
+      <module name="server-common-rocketmq" target="1.8" />
+      <module name="server-common-task" target="1.8" />
+      <module name="server-common-zipkin" target="1.8" />
+      <module name="server-security-oauth2" target="1.8" />
+      <module name="server-service-user" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="server-common-aouth" options="-parameters" />
+      <module name="server-common-base" options="-parameters" />
+      <module name="server-common-email" options="-parameters" />
+      <module name="server-common-es" options="-parameters" />
+      <module name="server-common-eureka" options="-parameters" />
+      <module name="server-common-gateway" options="-parameters" />
+      <module name="server-common-integrationPay" options="-parameters" />
+      <module name="server-common-kafka" options="-parameters" />
+      <module name="server-common-mongodb" options="-parameters" />
+      <module name="server-common-msg" options="-parameters" />
+      <module name="server-common-redis" options="-parameters" />
+      <module name="server-common-rocketmq" options="-parameters" />
+      <module name="server-common-task" options="-parameters" />
+      <module name="server-common-zipkin" options="-parameters" />
+      <module name="server-security-oauth2" options="-parameters" />
+      <module name="server-service-user" options="-parameters" />
+    </option>
+  </component>
+</project>
