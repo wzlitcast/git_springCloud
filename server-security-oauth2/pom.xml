@@ -24,7 +24,7 @@
 		<maven.test.skip>true</maven.test.skip>
 		<hutool-version>4.1.21</hutool-version>
 		<lombok-version>1.18.4</lombok-version>
-		<junit-version>4.11</junit-version>
+		<junit-version>4.13.1</junit-version>
 		<fastjson-version>1.2.44</fastjson-version>
 		<google-api-version>1.28.0</google-api-version>
 		<guava-version>27.1-jre</guava-version>
