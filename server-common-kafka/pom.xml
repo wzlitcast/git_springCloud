@@ -16,7 +16,7 @@
   <name>server-common-kafka</name>
 
   <properties>
-    <fastjson>1.2.56</fastjson>
+    <fastjson>1.2.83</fastjson>
     <apollo-client>1.1.0</apollo-client>
     <spring-webflux>5.1.7.RELEASE</spring-webflux>
   </properties>
